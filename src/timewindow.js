@@ -3,12 +3,19 @@ var UI = require('ui'),
 
 module.exports = function() {
 	
-	// TODO: Add battery level
+	// TODO: Add battery level, if possible with Pebble.JS
 	// TODO: Add disconnected indicator
-	// TODO: Add weather
-	// TODO: Add next train time - assuming we can parse XML
+	// TODO: Add weather - Custom fonts aren't working, could be Pebble.JS
+	// TODO: Add next train time - is parsing XML is possible
 	
 	var window = new UI.Window(),
+		weatherLabel = new UI.Text({
+			text: 'A',
+			font: 'weather-font-18',
+			position: new Vector2(0, 0),
+			size: new Vector2(144, 20),
+			textAlign: 'center'
+		}),
 		dateLabel = new UI.TimeText({
 			text: '%x',
 			position: new Vector2(0, 55),
@@ -23,6 +30,7 @@ module.exports = function() {
 			font: 'gothic-28-bold'
 		});
 	
+	window.add(weatherLabel);
 	window.add(dateLabel);
 	window.add(timeLabel);
 	
