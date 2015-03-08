@@ -18,7 +18,7 @@ module.exports = function() {
 			textAlign: 'center'
 		}),
 		dateLabel = new UI.TimeText({
-			text: '%x',
+			text: '%a, %d %b %y',
 			position: new Vector2(0, 55),
 			size: new Vector2(144, 42),
 			font: 'gothic-24'
