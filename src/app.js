@@ -10,11 +10,11 @@ var TimeWindow = require('timewindow'),
 	Vibe = require('ui/vibe');
 
 var timeWindow = new TimeWindow(),
-	listener = new PetrolStationListener(),
+	petrolStationListener = new PetrolStationListener(),
 	notifyWindow = null,
 	vibrateTimer = null;
 
-listener.addEventListener(listener.EVENT_ENTER, function() {	
+petrolStationListener.addEventListener(petrolStationListener.EVENT_ENTER, function() {	
 	notifyWindow = new NotifyWindow();
 	notifyWindow.show();
 	
@@ -26,8 +26,7 @@ listener.addEventListener(listener.EVENT_ENTER, function() {
 		Vibe.vibrate('short');
 	}, 3000);
 });
-
-listener.addEventListener(listener.EVENT_LEAVE, function() {	
+petrolStationListener.addEventListener(petrolStationListener.EVENT_LEAVE, function() {	
 	notifyWindow.hide();
 	notifyWindow = null;
 	

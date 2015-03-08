@@ -1,5 +1,6 @@
 var UI = require('ui'),
-	Vector2 = require('vector2');
+	Vector2 = require('vector2'),
+	TimeDeparture = require('timedeparture');
 
 module.exports = function() {
 	
@@ -33,6 +34,8 @@ module.exports = function() {
 	window.add(weatherLabel);
 	window.add(dateLabel);
 	window.add(timeLabel);
+	
+	new TimeDeparture(window);
 	
 	return window;
 	
