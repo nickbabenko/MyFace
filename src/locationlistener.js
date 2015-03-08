@@ -5,7 +5,7 @@ var API_BASE_URL = 'https://api.foursquare.com/v2/',
 	API_CLIENT_SECRET = 'ARXRLC53H33LRT1LHC0U4JMOSYP0MZTRHIYQKVNXMKEOFJYL',
 	API_VERSION = '20150306',
 	LOCATION_UPDATE_DELAY = 1, // minutes
-	SEARCH_RADIUS = 50;
+	SEARCH_RADIUS = 100;
 
 var currentLocation = null,
 	currentLocationTime = null;

@@ -28,6 +28,11 @@
                 "file": "fonts/UbuntuMono-Regular.ttf",
                 "name": "MONO_FONT_14",
                 "type": "font"
+            },
+            {
+                "file": "images/train_icon_white.png",
+                "name": "IMAGES_TRAIN_ICON_WHITE_PNG",
+                "type": "png"
             }
         ]
     },

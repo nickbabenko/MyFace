@@ -1,5 +1,4 @@
 var TrainStationListener = require('trainstationlistener'),
-	parseXml = require('xmlparser'),
 	ajax = require('ajax'),
 	UI = require('ui'),
 	Vector2 = require('vector2');
@@ -8,7 +7,8 @@ var trainStationListener = new TrainStationListener();
 
 module.exports = function(window) {
 	
-	var stationNameLabel = null,
+	var indicatorIcon = null,
+		stationNameLabel = null,
 		serviceDepartureLabel = null;
 	
 	// Listen for arrival at a train station
@@ -24,6 +24,9 @@ module.exports = function(window) {
 		}
 	});
 	trainStationListener.addEventListener(trainStationListener.EVENT_LEAVE, function() {
+		if (indicatorIcon !== null) {
+			indicatorIcon.remove();
+		}
 		if (stationNameLabel !== null) {
 			stationNameLabel.remove();
 		}
@@ -49,9 +52,13 @@ module.exports = function(window) {
 		requestBody += '<soap:Body>';
 		
 		// Start request
+		// Either between Eccles and Manchester Victoria
+		var destinationStationCode = (stationCode == 'ECC' ? 'MCV' : 'ECC');
+		
 		requestBody += '<n1:GetDepartureBoardRequest xmlns:n1="http://thalesgroup.com/RTTI/2014-02-20/ldb/">';
 		requestBody += '<n1:numRows>1</n1:numRows>';
 		requestBody += '<n1:crs>' + stationCode + '</n1:crs>';
+		requestBody += (destinationStationCode !== null ? '<n1:filterCrs>' + destinationStationCode + '</n1:filterCrs>' : '');
 		requestBody += '</n1:GetDepartureBoardRequest>';
 		// end request
 		
@@ -73,48 +80,61 @@ module.exports = function(window) {
 				method: 'post',
 				data: requestBody
 			},
-			function(data, status, request) {
-				console.log('response', data);
-				var response = parseXml(data);
+			function(data, status, request) {				
+				var destinationData = data.match(/<destination><location><locationName>(.*)<\/locationName><crs>([A-Z]{3})<\/crs>.*<\/location><\/destination>/);
+				var scheduledDepartureTime = data.match(/<std>([0-9]{2}:[0-9]{2})<\/std>/);
+				var estimatedArrivalTime = data.match(/<eta>(.*)<\/eta>/);
 				
-				console.log(typeof response);
-				
-				if (typeof response['soap:Envelope'] == 'object' && 
-					typeof response['soap:Envelope']['soap:Body'] == 'object' &&
-					typeof response['soap:Envelope']['soap:Body'].GetDepartureBoardResponse == 'object' &&
-					typeof response['soap:Envelope']['soap:Body'].GetDepartureBoardResponse.GetStationBoardResult == 'object') {
-					response = response['soap:Envelope']['soap:Body'].GetDepartureBoardResponse.GetStationBoardResult;
-					
-					if (typeof response.trainServices == 'object' && typeof response.trainServices.length == 'number') {
-						showDepartureIndicator(response.locationName , response.trainServices[0]);
+				if (scheduledDepartureTime !== null) {
+					showDepartureIndicator(
+						destinationData[1] || null, 
+						scheduledDepartureTime[1] || null, 
+						(estimatedArrivalTime !== null ? estimatedArrivalTime[1] : null)
+					);
+				} else {
+					if (indicatorIcon !== null) {
+						indicatorIcon.remove();
+					}
+					if (stationNameLabel !== null) {
+						stationNameLabel.remove();
+					}
+					if (serviceDepartureLabel !== null) {
+						serviceDepartureLabel.remove();
 					}
 				}
 			},
-			function(error, status, request) {
-			}
+			function(error, status, request) {}
 		);
 	};
 	
-	var showDepartureIndicator = function(stationName, service) {
-		console.log('showDepartureIndicator', stationName, service.std);
-		
-		if (stationNameLabel !== null) {
+	var showDepartureIndicator = function(stationName, scheduledDepartureTime, estimatedArrivalTime) {		
+		if (indicatorIcon === null) {
+			indicatorIcon = new UI.Image({
+				position: new Vector2(5, 137),
+				size: new Vector2(16, 20),
+				image: 'images/train_icon_white.png'
+			});
+			window.add(indicatorIcon);
+		}
+		if (stationNameLabel === null) {
 			stationNameLabel = new UI.Text({
-				position: new Vector2(0, 100),
-				size: new Vector2(72, 20)
+				position: new Vector2(25, 130),
+				size: new Vector2(75, 20),
+				textAlign: 'left'
 			});
 			window.add(stationNameLabel);
 		}
-		if (serviceDepartureLabel !== null) {
+		if (serviceDepartureLabel === null) {
 			serviceDepartureLabel = new UI.Text({
-				position: new Vector2(72, 100),
-				size: new Vector2(72, 20)
+				position: new Vector2(100, 130),
+				size: new Vector2(40, 20),
+				textAlign: 'right'
 			});
 			window.add(serviceDepartureLabel);
 		}
 		
 		stationNameLabel.text(stationName);
-		serviceDepartureLabel.text(service.std);
+		serviceDepartureLabel.text(estimatedArrivalTime || scheduledDepartureTime);
 	};
 	
 };
