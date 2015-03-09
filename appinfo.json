@@ -26,11 +26,6 @@
                 "type": "png"
             },
             {
-                "file": "fonts/weathericons-regular-webfont.ttf",
-                "name": "WEATHER_FONT_14",
-                "type": "font"
-            },
-            {
                 "file": "images/clear-day.png",
                 "name": "IMAGES_CLEAR_DAY_PNG",
                 "type": "png"
@@ -46,7 +41,7 @@
                 "type": "png"
             },
             {
-                "file": "images/cloudy.png",
+                "file": "images/clouds.png",
                 "name": "IMAGES_CLOUDY_PNG",
                 "type": "png"
             },
@@ -111,12 +106,12 @@
                 "type": "png"
             },
             {
-                "file": "images/thunder.png",
+                "file": "images/thunderstorm.png",
                 "name": "IMAGES_THUNDER_PNG",
                 "type": "png"
             },
             {
-                "file": "images/wind.png",
+                "file": "images/windy.png",
                 "name": "IMAGES_WIND_PNG",
                 "type": "png"
             },
