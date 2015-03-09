@@ -26,8 +26,8 @@
                 "type": "png"
             },
             {
-                "file": "fonts/UbuntuMono-Regular.ttf",
-                "name": "MONO_FONT_14",
+                "file": "fonts/weathericons-regular-webfont.ttf",
+                "name": "WEATHER_FONT_14",
                 "type": "font"
             },
             {
