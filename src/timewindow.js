@@ -10,13 +10,6 @@ module.exports = function() {
 	// TODO: Add weather
 	
 	var window = new UI.Window(),
-		weatherLabel = new UI.Text({
-			text: 'A',
-			font: 'weather-font-18jjj',
-			position: new Vector2(0, 0),
-			size: new Vector2(144, 20),
-			textAlign: 'center'
-		}),
 		dateLabel = new UI.TimeText({
 			text: '%a, %d %b %y',
 			position: new Vector2(0, 55),
@@ -31,7 +24,6 @@ module.exports = function() {
 			font: 'bitham-30-black'
 		});
 	
-	window.add(weatherLabel);
 	window.add(dateLabel);
 	window.add(timeLabel);
 	
