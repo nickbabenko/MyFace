@@ -1,4 +1,14 @@
+var UI = require('ui'),
+	Vector2 = require('vector2');
+
 module.exports = function(window) {
+	
+	var iconImage = new UI.Image({
+		position: new Vector2(0, 0),
+		size: new Vector2(58, 58)
+	});
+	
+	window.add(iconImage);
 	
 	var refreshWeather = function(latitude, longitude) {
 		ajax(
@@ -31,7 +41,7 @@ module.exports = function(window) {
 	};
 	
 	var updateIcon = function(iconIndicator) {
-		
+		iconImage.image('images/' + iconIndicator + '.png');
 	};
 	
 	detectLocation();
