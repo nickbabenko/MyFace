@@ -1,5 +1,6 @@
 var UI = require('ui'),
-	Vector2 = require('vector2');
+	Vector2 = require('vector2'),
+	ajax = require('ajax');
 
 module.exports = function(window) {
 	
